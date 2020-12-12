@@ -132,12 +132,12 @@ def crossover(parents: List[Chromosome], population_size: int, pc: float):
     return new_generation
 
 
-def mutation(population: List[Chromosome], taw: float):
+def mutation(population: List[Chromosome], tau: float):
     """
     mutates chromosomes due to taw
     """
     for i in range(len(population)):
-        population[i].mutate(taw)
+        population[i].mutate(tau)
 
 
 def main():
@@ -148,12 +148,12 @@ def main():
     population = []
 
     # problem constants
-    cal_fitness_num = 100000
-    population_size = 1000
-    parents_num = 2000  # number of parents in each parents selection
+    cal_fitness_num = 200000
+    population_size = 2000
+    parents_num = 4000  # number of parents in each parents selection
     tournament_size = 3
-    pc = 0.8  # crossover probability
-    taw = 0.4  # learning coefficient
+    pc = 0.4  # crossover probability
+    tau = 0.4  # learning coefficient
 
     # fitnesses values
     fitnesses = []
@@ -166,7 +166,7 @@ def main():
     for k in range(int(cal_fitness_num / population_size)):
         parents = parent_selection(population, parents_num)  # parents selection
         new_generation = crossover(parents, population_size, pc)  # crossover
-        mutation(new_generation, taw)  # mutation
+        mutation(new_generation, tau)  # mutation
         new_generation.extend(population)  # mu + lambda
         population = child_selection(new_generation, tournament_size)  # children selection for mu + lambda
 
