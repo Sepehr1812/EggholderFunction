@@ -22,6 +22,7 @@ class Chromosome:
     def mutate(self, taw):
         """
         mutates the chromosome via normal distribution
+        :param taw: learning coefficient
         """
         self.sigma = self.sigma * exp((-taw) * normalvariate(0, 1))
 
@@ -147,12 +148,12 @@ def main():
     population = []
 
     # problem constants
-    cal_fitness_num = 10000
-    population_size = 100
-    parents_num = 200  # number of parents in each parents selection
+    cal_fitness_num = 100000
+    population_size = 1000
+    parents_num = 2000  # number of parents in each parents selection
     tournament_size = 3
     pc = 0.8  # crossover probability
-    taw = 0.5
+    taw = 0.4  # learning coefficient
 
     # fitnesses values
     fitnesses = []
@@ -163,13 +164,11 @@ def main():
 
     # evaluation
     for k in range(int(cal_fitness_num / population_size)):
-        # parents selection
-        parents = parent_selection(population, parents_num)
+        parents = parent_selection(population, parents_num)  # parents selection
         new_generation = crossover(parents, population_size, pc)  # crossover
         mutation(new_generation, taw)  # mutation
         new_generation.extend(population)  # mu + lambda
-        # children selection for mu + lambda
-        population = child_selection(new_generation, tournament_size)
+        population = child_selection(new_generation, tournament_size)  # children selection for mu + lambda
 
         # calculating fitnesses
         fitnesses.clear()
